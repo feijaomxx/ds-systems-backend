@@ -23,3 +23,5 @@ CREATE TABLE endereco (
 UPDATE usuario SET cpf = '111.111.111-11', telefone = '(11) 99999-1111' WHERE id = 1;
 UPDATE usuario SET cpf = '222.222.222-22', telefone = '(22) 99999-2222' WHERE id = 2;
 UPDATE usuario SET cpf = '333.333.333-33', telefone = '(33) 99999-3333' WHERE id = 3;
+
+ALTER TABLE usuario ALTER COLUMN cpf SET NOT NULL
