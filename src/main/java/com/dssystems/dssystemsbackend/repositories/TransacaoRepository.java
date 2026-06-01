@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
+public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
-    List<Transacao> findByUsuarioId(Long usuarioId);
+    List<Transacao> findByUsuarioId(Integer usuarioId);
 
     @Query(value = "SELECT * FROM vw_resumo_mensal WHERE usuario = :nomeUsuario", nativeQuery = true)
     List<ResumoMensalProjection> buscarResumoDoDashboard(@Param("nomeUsuario") String nomeUsuario);

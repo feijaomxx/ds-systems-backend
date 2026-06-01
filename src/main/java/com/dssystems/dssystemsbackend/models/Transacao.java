@@ -10,7 +10,7 @@ public class Transacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -31,7 +31,7 @@ public class Transacao {
 
     public Transacao() {}
 
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public Usuario getUsuario() { return usuario; }
