@@ -25,10 +25,10 @@ DECLARE
 renda_atual DECIMAL;
     total_gasto DECIMAL;
 BEGIN
-    -- 1. Pega a renda do usuário
+
 SELECT renda_mensal INTO renda_atual FROM usuario WHERE id = NEW.id_usuario;
 
--- 2. Soma as despesas do mês atual fazendo JOIN com a categoria
+
 SELECT COALESCE(SUM(t.valor), 0)
 INTO total_gasto
 FROM transacao t
@@ -37,7 +37,7 @@ WHERE t.id_usuario = NEW.id_usuario
   AND c.tipo = 'DESPESA'
   AND TO_CHAR(t.data_transacao, 'MM-YYYY') = TO_CHAR(NEW.data_transacao, 'MM-YYYY');
 
--- 3. Verifica se ultrapassou os 80%
+
 IF (total_gasto > (renda_atual * 0.80)) THEN
         INSERT INTO alerta_financeiro (id_usuario, mensagem)
         VALUES (NEW.id_usuario, 'ALERTA: Seus gastos ultrapassaram 80% da sua renda mensal!');
