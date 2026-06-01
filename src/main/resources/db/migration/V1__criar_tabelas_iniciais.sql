@@ -43,3 +43,8 @@ CREATE TABLE compartilhamento_conta
     CONSTRAINT uk_compartilhamento UNIQUE (id_dono_conta, id_usuario_convidado),
     CONSTRAINT chk_nao_compartilhar_consigo_mesmo CHECK (id_dono_conta <> id_usuario_convidado)
 );
+
+UPDATE usuario SET rg = '0000000', telefone = '(00) 00000-0000' WHERE rg IS NULL;
+
+ALTER TABLE usuario ALTER COLUMN rg SET NOT NULL;
+ALTER TABLE usuario ALTER COLUMN telefone SET NOT NULL;

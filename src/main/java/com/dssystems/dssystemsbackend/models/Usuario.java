@@ -27,10 +27,10 @@ public class Usuario {
     @Column(unique = true, length = 14)
     private String cpf;
 
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private String rg;
 
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private String telefone;
 
     @Column(name = "data_cadastro", insertable = false, updatable = false)
