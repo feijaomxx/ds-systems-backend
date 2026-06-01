@@ -19,36 +19,33 @@ CREATE TABLE alerta_financeiro
 );
 
 
-CREATE
-OR REPLACE FUNCTION fn_checar_gastos()
+CREATE OR REPLACE FUNCTION fn_checar_gastos()
 RETURNS TRIGGER AS $$
 DECLARE
 renda_atual DECIMAL;
-    total_gasto
-DECIMAL;
+    total_gasto DECIMAL;
 BEGIN
-SELECT renda_mensal
-INTO renda_atual
-FROM usuario
-WHERE id = NEW.id_usuario;
+    -- 1. Pega a renda do usuário
+SELECT renda_mensal INTO renda_atual FROM usuario WHERE id = NEW.id_usuario;
 
-SELECT SUM(valor)
+-- 2. Soma as despesas do mês atual fazendo JOIN com a categoria
+SELECT COALESCE(SUM(t.valor), 0)
 INTO total_gasto
-FROM transacao
-WHERE id_usuario = NEW.id_usuario
-  AND tipo = 'DESPESA'
-  AND TO_CHAR(data_transacao, 'MM-YYYY') = TO_CHAR(NEW.data_transacao, 'MM-YYYY');
+FROM transacao t
+         JOIN categoria c ON t.id_categoria = c.id
+WHERE t.id_usuario = NEW.id_usuario
+  AND c.tipo = 'DESPESA'
+  AND TO_CHAR(t.data_transacao, 'MM-YYYY') = TO_CHAR(NEW.data_transacao, 'MM-YYYY');
 
-IF
-(total_gasto > (renda_atual * 0.80)) THEN
+-- 3. Verifica se ultrapassou os 80%
+IF (total_gasto > (renda_atual * 0.80)) THEN
         INSERT INTO alerta_financeiro (id_usuario, mensagem)
         VALUES (NEW.id_usuario, 'ALERTA: Seus gastos ultrapassaram 80% da sua renda mensal!');
 END IF;
 
 RETURN NEW;
 END;
-$$
-LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER trg_alerta_gastos

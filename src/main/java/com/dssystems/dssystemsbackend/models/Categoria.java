@@ -13,8 +13,8 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false)
-    private Integer tipo;
+    @Column(nullable = false, length = 15)
+    private String tipo;
 
     public Categoria() {}
 
