@@ -1,6 +1,7 @@
 package com.dssystems.dssystemsbackend.models;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -36,8 +37,11 @@ public class Usuario {
     @Column(name = "data_cadastro", insertable = false, updatable = false)
     private LocalDateTime dataCadastro;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Endereco endereco;
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Integer getId() {
         return id;
@@ -109,5 +113,17 @@ public class Usuario {
 
     public void setDataCadastro(LocalDateTime dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+        if (endereco != null) {
+            endereco.setUsuario(this);
+        }
     }
 }
