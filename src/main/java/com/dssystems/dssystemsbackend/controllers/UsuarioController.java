@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://zora-indol.vercel.app/")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
