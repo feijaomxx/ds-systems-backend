@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,5 +28,18 @@ public class UsuarioController {
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCriado);
+    }
+
+    /**
+     * Endpoint para autenticar o usuário (Login)
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody Map<String, String> credenciais) {
+        String email = credenciais.get("email");
+        String senha = credenciais.get("senha");
+
+        Usuario usuarioLogado = usuarioService.autenticarUsuario(email, senha);
+
+        return ResponseEntity.ok(usuarioLogado);
     }
 }

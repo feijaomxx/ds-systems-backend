@@ -26,4 +26,10 @@ public class TransacaoController {
         Transacao transacaoSalva = transacaoService.lancarTransacao(transacao);
         return ResponseEntity.status(HttpStatus.CREATED).body(transacaoSalva);
     }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Transacao>> listarTransacoes(@PathVariable Integer usuarioId) {
+        List<Transacao> lista = transacaoService.listarPorUsuario(usuarioId);
+        return ResponseEntity.ok(lista);
+    }
 }
